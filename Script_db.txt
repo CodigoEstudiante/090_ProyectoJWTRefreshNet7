@@ -1,0 +1,36 @@
+
+
+--1.- ========================== PRIMER EPISODIO ============
+CREATE DATABASE dbprueba
+
+USE dbprueba
+
+GO
+
+CREATE TABLE Usuario(
+IdUsuario int primary key identity,
+NombreUsuario varchar(20),
+Clave varchar(20)
+)
+
+insert into Usuario(NombreUsuario,Clave) 
+values
+('Admin','123')
+
+select * from Usuario
+
+
+--2.- ========================== SEGUNDO EPISODIO ============
+
+CREATE TABLE HistorialRefreshToken(
+IdHistorialToken int primary key identity,
+IdUsuario int references Usuario(IdUsuario),
+Token varchar(500),
+RefreshToken varchar(200),
+FechaCreacion datetime,
+FechaExpiracion datetime,
+EsActivo AS ( iif(FechaExpiracion < getdate(), convert(bit,0),convert(bit,1)))--columna calculada
+)
+
+
+select * from HistorialRefreshToken
